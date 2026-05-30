@@ -1,6 +1,6 @@
 export const SPRITES_BASE = `${import.meta.env.BASE_URL}assets/sprites/`;
 const BASE = SPRITES_BASE;
-export const ASSET_VER = '25';
+export const ASSET_VER = '26';
 
 export const SPRITE_FILES = {
   birdRed: 'bird-red.png',
