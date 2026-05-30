@@ -418,6 +418,23 @@ export const G = {
     this.checkEnd();
   },
 
+  /** Птицы в очереди — сзади рогатки, дальние рисуем первыми */
+  drawBirdQueue() {
+    const waiting = this.birdTypes.slice(this.birdIdx);
+    for (let i = waiting.length - 1; i >= 0; i--) {
+      const t = waiting[i];
+      const wx = SL.x - 44 - i * 42;
+      const baseR = t === 'black' ? 16 : 14;
+      const scale = 1 - i * 0.06;
+      const r = baseR * scale;
+      const footY = hillSurfaceY(wx) + i * 2;
+      cx.save();
+      cx.globalAlpha = Math.max(0.7, 1 - i * 0.12);
+      drawBird(t, wx, footY, r, 0, { anchor: 'feet' });
+      cx.restore();
+    }
+  },
+
   draw() {
     const sky = cx.createLinearGradient(0, 0, 0, HH);
     sky.addColorStop(0, '#3A7DC9');
@@ -446,6 +463,8 @@ export const G = {
 
     drawClouds();
     drawGround();
+
+    this.drawBirdQueue();
 
     drawSlingFrame();
 
@@ -490,13 +509,6 @@ export const G = {
       cx.stroke();
       cx.restore();
     }
-
-    const waiting = this.birdTypes.slice(this.birdIdx);
-    waiting.forEach((t, i) => {
-      const wx = SL.x - 36 - i * 38;
-      const r = t === 'black' ? 16 : 14;
-      drawBird(t, wx, hillSurfaceY(wx), r, 0, { anchor: 'feet' });
-    });
 
     drawParts();
   },

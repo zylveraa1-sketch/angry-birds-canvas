@@ -1,7 +1,7 @@
 import { WW, GROUND, GRAVITY, BOUNCE, cx } from './config.js';
 import { hillSurfaceY } from './terrain.js';
 import { BIRD_CENTER_ABOVE_POUCH } from './slingshot.js';
-import { spawnP, spawnBoom } from './particles.js';
+import { spawnP, spawnBoom, explosionDuration } from './particles.js';
 import { drawBird } from './sprite-bird.js';
 import { showHint } from './hint.js';
 
@@ -65,7 +65,7 @@ export class Bird {
   doExplode() {
     spawnBoom(this.x, this.y);
     this.exploding = true;
-    this.explodeFrame = 12;
+    this.explodeFrame = explosionDuration();
     gameRef.explosionDamage(this.x, this.y, 115);
   }
 

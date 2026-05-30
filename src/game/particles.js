@@ -7,8 +7,13 @@ export const SHOCKWAVES = [];
 /** Спрайтовые взрывы: 3 кадра из assets/sprites/explosion-*.png */
 export const EXPLOSIONS = [];
 
-const EXP_FRAME_TICKS = 4;
+const EXP_FRAME_TICKS = 7;
 const EXP_FRAMES = 3;
+
+/** Длительность спрайтового взрыва в кадрах игры (~21 при 60fps) */
+export function explosionDuration() {
+  return EXP_FRAMES * EXP_FRAME_TICKS;
+}
 
 export function spawnP(x, y, col, n = 10, spd = 5) {
   for (let i = 0; i < n; i++) {
@@ -42,7 +47,7 @@ export function spawnBoom(x, y) {
   spawnSpriteExplosion(x, y, 210);
   spawnP(x, y, '#FF6600', 18, 10);
   spawnP(x, y, '#FFD700', 12, 8);
-  SHOCKWAVES.push({ x, y, r: 10, maxR: 130, life: 1 });
+  SHOCKWAVES.push({ x, y, r: 10, maxR: 130, life: 1.35 });
 }
 
 export function tickParts() {
@@ -57,7 +62,7 @@ export function tickParts() {
   for (let i = SHOCKWAVES.length - 1; i >= 0; i--) {
     const s = SHOCKWAVES[i];
     s.r += 12;
-    s.life -= 0.08;
+    s.life -= 0.06;
     if (s.life <= 0) SHOCKWAVES.splice(i, 1);
   }
   for (let i = EXPLOSIONS.length - 1; i >= 0; i--) {
