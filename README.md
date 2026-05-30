@@ -1,118 +1,57 @@
 # Angry Birds — 2D Canvas
 
-Учебная веб-игра в стиле Angry Birds: рогатка, физика блоков, свиньи, 5 уровней, счёт и экран победы/поражения.
+Учебная веб-игра: рогатка, физика, свиньи, 5 уровней, счёт, экран победы/поражения.
 
 ## Стек
 
-- HTML / CSS / JavaScript
-- Canvas 2D
-- [Vite](https://vitejs.dev/) — локальный сервер и сборка для GitHub Pages
+HTML · CSS · JavaScript · Canvas 2D · Vite
 
 ## Запуск локально
 
-**Самый простой способ (Windows):** дважды кликни `start-game.bat` → открой http://localhost:5173/
-
-**Через Node (без npm):**
-
-```bash
-node scripts/serve.mjs
-```
-
-**Если установлен Node.js с npm:**
+**Windows:** `start-game.bat` → http://localhost:5173/
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Сборка и тесты
+Откроется http://localhost:5173/
+
+## Тесты
 
 ```bash
-npm run build    # папка dist/ для публикации
-npm run preview  # проверка сборки
-npm test         # unit-тесты коллизий
+npm test
 ```
 
-Если `npm` не в PATH, то же самое через Node:
-
-```bash
-node --test tests/collision.test.js
-```
-
-## Анимации (ассет-пак)
-
-| Анимация | Спрайты | Где |
-|----------|---------|-----|
-| Взрыв чёрной птицы | `explosion-1/2/3.png` — 3 кадра | `particles.js` |
-| Звёзды рейтинга | `star.png` — вращение | HUD и экран победы |
-| Удар по свинье | `pig.png` — сжатие (squash) | `pig.js` |
+или `node --test tests/collision.test.js`
 
 ## Управление
 
-- **Мышь / палец:** потянуть птицу на рогатке и отпустить
-- **Двойной клик** (после запуска): способность жёлтой (ускорение) или чёрной (взрыв) птицы
-- Уничтожь всех свиней — победа; закончились птицы — поражение
+- Потянуть птицу на рогатке и отпустить
+- Двойной клик после запуска — способность жёлтой (ускорение) или чёрной (взрыв) птицы
 
-## Спрайты
+## Игра онлайн (GitHub Pages)
 
-**Птицы и прочие спрайты** — исходники в `ФОТО/`, в игре грузятся из `assets/sprites/`:
+https://zylveraa1-sketch.github.io/angry-birds-canvas/
 
-```bash
-py scripts/process_sprites.py
-```
-
-Скрипт берёт PNG из `ФОТО/` (свиньи — как есть, трава, рогатка и т.д.) и кладёт в `assets/sprites/`.  
-На GitHub Pages перед сборкой тот же скрипт запускается в CI.
-
-**Всё остальное одним листом** — положи `фото/models.png` (или `sheet-all.png`), затем:
-
-```bash
-py scripts/split_sheet.py
-```
-
-Скрипт сам нарежет 12 PNG в `assets/sprites/` (схема в `assets/spritesheet-layout.json`).
-
-## Структура проекта
+## Структура
 
 ```
-├── index.html
-├── css/style.css
-├── src/
-│   ├── main.js
-│   └── game/
-│       ├── config.js      # canvas и физика
-│       ├── game.js        # игровой цикл
-│       ├── bird.js, pig.js, block.js
-│       ├── collision.js, levels.js
-│       └── ...
-├── assets/                # сюда кладут PNG/SVG (опционально)
-└── tests/
+index.html
+css/style.css
+src/main.js
+src/game/          — модули игры
+assets/sprites/    — 14 PNG (птицы, свиньи, рогатка, взрывы, трава, звезда, блоки)
+tests/             — unit-тесты коллизий
 ```
 
-## GitHub Pages
+## MVP (ТЗ)
 
-Игра публикуется автоматически при push в ветку `main` (workflow `.github/workflows/deploy-pages.yml`).
-
-Ссылка на игру: **https://zylveraa1-sketch.github.io/angry-birds-canvas/**
-
-Локальная сборка: `npm run build` → папка `dist/` (`base: './'` в `vite.config.js` уже настроено).
-
-## MVP (по заданию)
-
-| Фича | Статус |
-|------|--------|
-| Движение (рогатка + полёт) | ✅ |
-| Счёт | ✅ |
-| Экран поражения / победы | ✅ |
-| Запуск локально | ✅ `npm run dev` |
-
-## Команда / git
-
-```bash
-git init
-git add .
-git commit -m "feat: MVP Angry Birds на Canvas с модульной структурой"
-gh repo create my-game --public --source=. --push
-```
-
-Презентации курса: [02_presentation](https://github.com/SenatorMorra/02_presentation)
+| Требование | Статус |
+|------------|--------|
+| 2D веб-игра на Canvas | ✅ |
+| Модульная структура (не один index.html) | ✅ |
+| Движение, счёт, победа/поражение | ✅ |
+| 10+ 2D-ассетов | ✅ (14 спрайтов) |
+| 3 анимации | ✅ взрыв (3 кадра), звёзды, squash свиньи |
+| GitHub + Pages | ✅ |
