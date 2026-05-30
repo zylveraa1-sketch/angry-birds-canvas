@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>День 4 • Отчёт: Текст + Оформление</title>
+  <style>
+    :root {
+      --paper: #fffdf8;
+      --ink: #1f1f1f;
+      --muted: #5d5a50;
+      --line: #d7cfbf;
+      --ok: #0c5d6b;
+      --warn: #b54b00;
+      --info: #2d4c96;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; }
+    body {
+      font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+      background: linear-gradient(140deg, #f2ecdf 0%, #edf5f8 100%);
+      color: var(--ink);
+      overflow: hidden;
+    }
+    .deck { position: fixed; inset: 0; background: var(--paper); overflow: hidden; }
+    .slide {
+      position: absolute; inset: 0;
+      padding: 44px 56px 82px;
+      opacity: 0; transform: translateX(20px);
+      transition: opacity .22s ease, transform .22s ease;
+      pointer-events: none;
+      display: grid; grid-template-rows: auto 1fr; gap: 14px;
+      background:
+        radial-gradient(circle at 8% 8%, #fff7e7 0%, transparent 35%),
+        radial-gradient(circle at 92% 88%, #e8f4f9 0%, transparent 30%),
+        var(--paper);
+    }
+    .slide.active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+    h1, h2, h3 { margin: 0; }
+    h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); line-height: 1.12; }
+    h2 { font-size: clamp(1.85rem, 3.1vw, 2.7rem); line-height: 1.15; }
+    h3 { font-size: clamp(1.2rem, 2.1vw, 1.6rem); }
+    p, li { margin: 0; font-size: clamp(1.08rem, 1.6vw, 1.42rem); line-height: 1.4; }
+    ul { margin: 0; padding-left: 24px; display: grid; gap: 8px; }
+    .lead { color: var(--muted); font-size: clamp(1.2rem, 1.9vw, 1.58rem); }
+    .big { font-size: clamp(1.45rem, 2.35vw, 2.15rem); font-weight: 600; line-height: 1.24; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: start; }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+    .ok { border-left: 8px solid var(--ok); }
+    .warn { border-left: 8px solid var(--warn); }
+    .info { border-left: 8px solid var(--info); }
+    .code {
+      margin-top: 8px;
+      font-family: "Cascadia Code", "Consolas", monospace;
+      font-size: clamp(.92rem, 1.28vw, 1.15rem);
+      background: #f3f3ef;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      white-space: pre-wrap;
+    }
+    .prompt-code {
+      max-height: 55vh;
+      overflow: auto;
+      font-size: clamp(.78rem, 1.05vw, .98rem);
+      line-height: 1.35;
+    }
+    .footer {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      border-top: 1px solid var(--line);
+      background: #fffcf4;
+      color: var(--muted);
+      padding: 12px 18px;
+      display: flex; justify-content: space-between;
+      font-size: 1.05rem;
+    }
+    @media (max-width: 980px) {
+      .slide { padding: 24px 14px 74px; overflow: auto; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide active">
+      <header><h1>День 4: Отчёт через Opencode + Python</h1></header>
+      <div>
+        <p class="big">Отчёт = 2 этапа</p>
+        <ul style="margin-top:10px;">
+          <li><b>Этап 1:</b> подготовить сырой текст в <code>.md</code> на ~10 страниц.</li>
+          <li><b>Этап 2:</b> накинуть правильное оформление по требованиям.</li>
+        </ul>
+        <p class="lead" style="margin-top:10px;">Сразу после Этапа 1 делаем конвертацию в <code>.docx</code> и проверяем Word-версию, а не исходный <code>.md</code>.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Что вы делаете сначала</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>Подготовка контента</h3>
+          <ul>
+            <li>Собираете все факты проекта: стек, этапы, баги, итоги.</li>
+            <li>Готовите список скриншотов и где они должны стоять.</li>
+            <li>Формируете черновик отчёта одной командой.</li>
+          </ul>
+        </article>
+        <article class="card info">
+          <h3>Где писать черновик</h3>
+          <ul>
+            <li>Этап 1 делаем только в <code>.md</code>.</li>
+            <li>Разрешённая базовая разметка: <code>#</code>, <code>##</code>, <code>[изображение](...)</code>.</li>
+            <li>После генерации сразу конвертация в <code>.docx</code> для проверки в Word.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Документация для Этапа 1 (содержание)</h2></header>
+      <div class="card ok">
+        <h3>Обязательные разделы отчёта</h3>
+        <ul>
+          <li>Содержание.</li>
+          <li>Введение.</li>
+          <li>Анализ предметной области.</li>
+          <li>Рабочее проектирование.</li>
+          <li>Заключение.</li>
+          <li>Список использованных источников.</li>
+        </ul>
+        <div class="code">Важно: раздел «Содержание» генерируется автоматически после того, как весь документ уже полностью готов.</div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>О чём писать в каждом разделе</h2></header>
+      <div class="grid-2">
+        <article class="card info">
+          <h3>Введение</h3>
+          <ul>
+            <li>Что такое harness-инструменты и почему они сильнее веб-чатов.</li>
+            <li>Какие возможности дают harness: работа с файлами, git, запуск, автоматизация.</li>
+            <li>Какой выигрыш по времени и удобству получили в проекте.</li>
+          </ul>
+        </article>
+        <article class="card ok">
+          <h3>Анализ предметной области</h3>
+          <ul>
+            <li>Задача: разработать веб-игру (2D или 3D) с ассетами.</li>
+            <li>Почему задача сложная для обычного веб-чата: много файлов, папок, локальные пути.</li>
+            <li>Нужны редактирование кода, тесты, запуск локального сервера и отладка.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Раздел «Рабочее проектирование»</h2></header>
+      <div class="card ok">
+        <ul>
+          <li>Создали папку проекта.</li>
+          <li>Скачали ассеты и положили в папку <code>assets</code>.</li>
+          <li>Подготовили план в Plan mode, доработали его.</li>
+          <li>Перешли в Build mode и дали opencode/cursor доступ к разработке.</li>
+          <li>Контролировали реализацию, делали <code>git commit</code> и <code>git push</code> после контрольных точек.</li>
+          <li>Опубликовали репозиторий в GitHub Pages и получили ссылку на игру.</li>
+        </ul>
+      </div>
+      <div class="card info" style="margin-top:10px;">
+        <h3>3 обязательных скриншота в этом разделе</h3>
+        <ul>
+          <li>Скриншот папки с ассетами.</li>
+          <li>Скриншот harness-инструмента в процессе разработки.</li>
+          <li>Скриншот геймплея игры.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Заключение и источники</h2></header>
+      <div class="grid-2">
+        <article class="card info">
+          <h3>Заключение</h3>
+          <ul>
+            <li>Кратко: научились работать с harness-инструментами.</li>
+            <li>Итог: успешно сделали рабочую игру.</li>
+            <li>Оценка удобства и пользы подхода.</li>
+          </ul>
+        </article>
+        <article class="card warn">
+          <h3>Список источников</h3>
+          <ul>
+            <li>Cursor — электронный ресурс (дата обращения: 01.06.2026).</li>
+            <li>Opencode — электронный ресурс (дата обращения: 01.06.2026).</li>
+            <li>GitHub — электронный ресурс (дата обращения: 01.06.2026).</li>
+            <li>Kenney — электронный ресурс (дата обращения: 01.06.2026).</li>
+            <li>Sketchfab — электронный ресурс (дата обращения: 01.06.2026).</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Инструкция: как сгенерировать сырой текст</h2></header>
+      <div class="card ok">
+        <h3>Универсальный промпт в opencode</h3>
+        <div class="code prompt-code">Проанализируй материалы моего проекта и подготовь сырой отчёт в формате Markdown.
+
+Мои данные:
+- ФИО: [ФИО студента / студентов]
+- Группа: [номер группы]
+- Тема проекта: [название игры]
+- Тип игры: [2D / 3D]
+- Использованный harness: [opencode / cursor / opencode и cursor]
+- Ссылка на GitHub репозиторий: [ссылка]
+- Ссылка на GitHub Pages: [ссылка]
+
+Материалы для анализа:
+- Папка с игрой: [путь до папки проекта]
+- Презентация 1: [путь до HTML или кратко вставленный текст]
+- Презентация 2: [путь до HTML или кратко вставленный текст]
+- ТЗ/план из Plan mode, если сохранился: [путь до .md или “нет”]
+
+Скриншоты для раздела “Рабочее проектирование”:
+- Рисунок 1: папка с ассетами — [путь до изображения]
+- Рисунок 2: harness-инструмент в процессе разработки — [путь до изображения]
+- Рисунок 3: геймплей игры — [путь до изображения]
+
+Структура отчёта строго такая:
+# Содержание
+Не заполняй вручную. Напиши пометку: “Содержание генерируется автоматически после завершения документа”.
+
+# Введение
+Расскажи про harness-инструменты, почему они лучше обычных ИИ-чатов на сайтах, что умеют harness-инструменты, как они экономят время и позволяют автоматизировать работу с проектом. В конце предложения используй материалы: [путь до презентации 1 или """текст презентации 1"""].
+
+# Анализ предметной области
+Расскажи, что задача проекта — разработать веб-игру [2D или 3D] с ассетами. Объясни, почему это сложная задача для обычного веб-чата: много файлов и папок, локальные пути к ассетам, редактирование кода, тестирование и запуск локального сервера.
+
+# Рабочее проектирование
+Опиши фактические шаги проекта с учётом материалов: [путь до презентации 2 или """текст презентации 2"""]. Нужно раскрыть, что создали папку, скачали ассеты в assets, подготовили план в Plan mode, доработали его, перешли в Build mode, дали harness-инструменту доступ к разработке, контролировали реализацию, делали git commit и git push после контрольных точек, выложили проект на GitHub Pages и получили ссылку на игру.
+Отдельно добавь инструкцию публикации через GitHub Pages:
+1. проверить, что репозиторий Public, а не Private; если Private, открыть Settings, пролистать вниз и выбрать Change visibility to public;
+2. в Settings перейти в Pages;
+3. выбрать branch main вместо None и нажать Save;
+4. подождать примерно 5 минут.
+Вставь пометки для трёх рисунков через Markdown:
+[Рисунок 1 — Папка с ассетами](добавить)
+[Рисунок 2 — Разработка игры в harness-инструменте](добавить)
+[Рисунок 3 — Геймплей разработанной игры](добавить)
+
+# Заключение
+Напиши, что в ходе работы были изучены harness-инструменты и разработана рабочая веб-игра. Оцени, насколько подход оказался удобным и полезным.
+
+# Список использованных источников
+1. Cursor — электронный ресурс. Дата обращения: 01.06.2026.
+2. Opencode — электронный ресурс. Дата обращения: 01.06.2026.
+3. GitHub — электронный ресурс. Дата обращения: 01.06.2026.
+4. Kenney — электронный ресурс. Дата обращения: 01.06.2026.
+5. Sketchfab — электронный ресурс. Дата обращения: 01.06.2026.
+
+Требования:
+- объём: примерно 10 страниц после конвертации в Word; ориентир 17 000-23 000 символов с пробелами без списка источников, потому что в документе будут 3 изображения;
+- стиль: технический-IT / академический;
+- форматирование Markdown: только #, ## и [изображение](добавить);
+- не пытайся имитировать финальное оформление: после генерации текста отдельный Python-скрипт будет форматировать report_raw.docx в report_final.docx;
+- не придумывай факты, если можно взять их из папки проекта;
+- создай файл report_raw.md;
+- затем подготовь или запусти конвертацию в сырой Word-документ report_raw.docx, чтобы я проверял уже .docx, а не .md.</div>
+      </div>
+      <div class="card" style="margin-top:10px;">
+        <h3>Сразу после генерации</h3>
+        <div class="code">python convert_md_to_docx.py report_raw.md report_raw.docx</div>
+        <ul>
+          <li>Проверять уже <code>report_raw.docx</code>, не <code>.md</code>.</li>
+          <li>Исправить факты и формулировки в контенте.</li>
+          <li>Потом переходить к этапу оформления.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Документация для Этапа 2 (оформление)</h2></header>
+      <div class="grid-2">
+        <article class="card warn">
+          <h3>Параметры оформления</h3>
+          <ul>
+            <li>Объём: 10-15 страниц.</li>
+            <li>Поля: верх/низ 2 см, левое 3 см, правое 1,5 см.</li>
+            <li>Текст: Times New Roman, 14 пт, чёрный цвет.</li>
+            <li>Интервал 1,5; до/после абзаца 0.</li>
+            <li>Красная строка: 1,25 см.</li>
+          </ul>
+        </article>
+        <article class="card info">
+          <h3>Структурные правила</h3>
+          <ul>
+            <li>Заголовки капсом и жирным шрифтом.</li>
+            <li>ВВЕДЕНИЕ, ЗАКЛЮЧЕНИЕ, СПИСОК ИСТОЧНИКОВ — по центру.</li>
+            <li>1. АНАЛИЗ..., 2. РАБОЧЕЕ... — слева с красной строки.</li>
+            <li>Между заголовком и текстом одна пустая строка.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Промпт для оформления через Python</h2></header>
+      <div class="card ok">
+        <h3>Вставить в opencode после проверки report_raw.docx</h3>
+        <div class="code prompt-code">Создай Python-скрипт format_report.py, который принимает report_raw.docx и создаёт report_final.docx с правильным оформлением.
+
+Команда запуска:
+python format_report.py report_raw.docx report_final.docx
+
+Правила оформления:
+- объём итогового реферата: 10-15 страниц;
+- поля: верхнее 2 см, нижнее 2 см, левое 3 см, правое 1,5 см;
+- основной текст: Times New Roman, 14 пт, цвет чёрный/авто;
+- межстрочный интервал: 1,5;
+- интервалы до и после абзаца: 0;
+- каждый абзац начинается с красной строки 1,25 см;
+- форматирование основного текста не допускается: без жирного, курсива, подчёркивания и цвета;
+- исключение: заголовки должны быть капсом и жирным шрифтом.
+
+Заголовки:
+- ВВЕДЕНИЕ, ЗАКЛЮЧЕНИЕ, СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ — без нумерации, по центру;
+- 1. АНАЛИЗ ПРЕДМЕТНОЙ ОБЛАСТИ и 2. РАБОЧЕЕ ПРОЕКТИРОВАНИЕ — нумерованные, с левого края с красной строки;
+- между заголовком и следующим текстом должна быть 1 пустая строка.
+
+Изображения:
+- подписи под изображениями: Times New Roman, 14 пт, по центру;
+- формат подписи: Рисунок 1 — Папка с ассетами;
+- между текстом и изображением 1 пустая строка;
+- между подписью к изображению и следующим текстом 1 пустая строка.
+
+Перечисления:
+- перед перечислением должно быть предложение, которое заканчивается двоеточием;
+- пункты либо нумерованные 1., 2., 3., либо ненумерованные через дефис;
+- каждый пункт начинается с маленькой буквы;
+- в конце каждого пункта ставится точка с запятой;
+- последний пункт заканчивается точкой.
+
+Список источников:
+- оформи в алфавитном порядке;
+- оформи как электронные ресурсы по ГОСТ-стилю;
+- используй URL и дату обращения 01.06.2026;
+- пример формата: GitHub : [сайт]. — URL: https://github.com/ (дата обращения: 01.06.2026).
+
+Источники:
+1. Cursor : [сайт]. — URL: https://cursor.com/ (дата обращения: 01.06.2026).
+2. GitHub : [сайт]. — URL: https://github.com/ (дата обращения: 01.06.2026).
+3. Kenney : [сайт]. — URL: https://kenney.nl/ (дата обращения: 01.06.2026).
+4. Opencode : [сайт]. — URL: https://opencode.ai/ (дата обращения: 01.06.2026).
+5. Sketchfab : [сайт]. — URL: https://sketchfab.com/ (дата обращения: 01.06.2026).
+
+После создания скрипта запусти его, проверь, что report_final.docx создан, и кратко перечисли, какие правила оформления применены.</div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Частые ошибки в отчётах</h2></header>
+      <div class="grid-3">
+        <article class="card warn"><h3>Содержание</h3><ul><li>Нечёткая цель.</li><li>Нет этапов разработки.</li><li>Нет анализа ошибок.</li></ul></article>
+        <article class="card warn"><h3>Оформление</h3><ul><li>Скачущий шрифт.</li><li>Нет красной строки.</li><li>Подписи к рисункам пропущены.</li></ul></article>
+        <article class="card warn"><h3>Сдача</h3><ul><li>Нет ссылок на GitHub.</li><li>PDF «поплыл» на чужом ПК.</li><li>Финальная версия не проверена.</li></ul></article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>PDF и печать: финальная проверка</h2></header>
+      <div class="card ok">
+        <ul>
+          <li>Экспортировать в PDF только после финального форматирования.</li>
+          <li>Проверить PDF на другом просмотрщике/ПК.</li>
+          <li>Проверить переносы, нумерацию, подписи, читаемость.</li>
+          <li>Имя файла: <code>groupXX_report_final.pdf</code>.</li>
+        </ul>
+      </div>
+      <p class="lead" style="margin-top:10px;">Это снижает риск, что в копи-центре «поедет» верстка.</p>
+    </section>
+
+    <section class="slide">
+      <header><h2>Чеклист перед сдачей</h2></header>
+      <div class="card info">
+        <ul>
+          <li>Текст отчёта ~10 страниц, структура соблюдена.</li>
+          <li>Заполнены 6 разделов: Содержание, Введение, Анализ, Рабочее проектирование, Заключение, Источники.</li>
+          <li>В «Рабочем проектировании» есть 3 нужных скриншота и подписи к ним.</li>
+          <li>Оформление соответствует требованиям.</li>
+          <li>Есть ссылки на репозиторий и GitHub Pages.</li>
+          <li>Готовы финальные файлы: DOCX + PDF.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="footer"><span>Навигация: ← → / Space / PgUp PgDn</span><span id="counter">1 / 11</span></footer>
+  </main>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.getElementById('counter');
+    let index = 0;
+    const render = () => {
+      slides.forEach((s, i) => s.classList.toggle('active', i === index));
+      counter.textContent = `${index + 1} / ${slides.length}`;
+    };
+    const next = () => { if (index < slides.length - 1) { index += 1; render(); } };
+    const prev = () => { if (index > 0) { index -= 1; render(); } };
+    window.addEventListener('keydown', (e) => {
+      if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) next();
+      if (['ArrowLeft', 'PageUp'].includes(e.key)) prev();
+    });
+    render();
+  </script>
+</body>
+</html>

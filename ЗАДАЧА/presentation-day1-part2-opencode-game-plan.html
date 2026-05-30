@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>День 1 • Пара 2 • Opencode и План Игры</title>
+  <style>
+    :root {
+      --paper: #fffdf8;
+      --ink: #1f1f1f;
+      --muted: #5e5a52;
+      --line: #d8d0c2;
+      --a: #0a5c6b;
+      --b: #b63d00;
+      --c: #2f4f9f;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; }
+    body {
+      font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(140deg, #f2ecdf 0%, #eef5f8 100%);
+      overflow: hidden;
+    }
+    .deck { position: fixed; inset: 0; background: var(--paper); overflow: hidden; }
+    .slide {
+      position: absolute; inset: 0;
+      padding: 44px 58px 82px;
+      opacity: 0; transform: translateX(22px);
+      transition: opacity .22s ease, transform .22s ease;
+      pointer-events: none;
+      display: grid; grid-template-rows: auto 1fr; gap: 14px;
+      background:
+        radial-gradient(circle at 8% 5%, #fff7e6 0%, transparent 35%),
+        radial-gradient(circle at 92% 90%, #e5f3f9 0%, transparent 30%),
+        var(--paper);
+    }
+    .slide.active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+    h1, h2, h3 { margin: 0; }
+    h1 { font-size: clamp(2.2rem, 4vw, 3.5rem); line-height: 1.12; }
+    h2 { font-size: clamp(1.85rem, 3.2vw, 2.8rem); line-height: 1.15; }
+    h3 { font-size: clamp(1.2rem, 2.2vw, 1.65rem); }
+    p, li { margin: 0; font-size: clamp(1.1rem, 1.65vw, 1.45rem); line-height: 1.4; }
+    ul { margin: 0; padding-left: 24px; display: grid; gap: 8px; }
+    .lead { color: var(--muted); font-size: clamp(1.2rem, 1.9vw, 1.6rem); }
+    .big { font-size: clamp(1.45rem, 2.4vw, 2.2rem); font-weight: 600; line-height: 1.25; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: start; }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+    .ok { border-left: 8px solid var(--a); }
+    .warn { border-left: 8px solid var(--b); }
+    .info { border-left: 8px solid var(--c); }
+    .code {
+      margin-top: 8px;
+      font-family: "Cascadia Code", "Consolas", monospace;
+      font-size: clamp(.95rem, 1.35vw, 1.2rem);
+      background: #f3f3ef;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      white-space: pre-wrap;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+    .step {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      display: grid;
+      gap: 6px;
+    }
+    .step .n {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: #0a5c6b; color: #fff; font-weight: 700;
+      font-size: 1rem;
+    }
+    .footer {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      border-top: 1px solid var(--line);
+      background: #fffcf4;
+      color: var(--muted);
+      padding: 12px 18px;
+      display: flex; justify-content: space-between;
+      font-size: 1.05rem;
+    }
+    @media (max-width: 980px) {
+      .slide { padding: 24px 14px 74px; overflow: auto; }
+      .grid-2, .grid-3, .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide active">
+      <header><h1>Пара 2: как правильно работать с opencode</h1></header>
+      <div>
+        <p class="lead">Цель: правильно запустить проектную работу, настроить workflow и сразу работать с GitHub/Git.</p>
+        <p class="big" style="margin-top:10px;">Итог пары: структура проекта, репозиторий, план и стартовый MVP.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Шаг 1: создать папку проекта</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>Вариант через терминал</h3>
+          <div class="code">mkdir my-game
+cd my-game</div>
+          <ul>
+            <li>`mkdir` создаёт папку проекта.</li>
+            <li>`cd` переходит в неё.</li>
+          </ul>
+        </article>
+        <article class="card info">
+          <h3>Вариант через Файлы</h3>
+          <ul>
+            <li>Создать папку через файловый менеджер.</li>
+            <li>Открыть терминал в этой папке через контекстное меню.</li>
+            <li>Дальше запускать opencode уже из этой папки.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Ключевые slash-команды opencode</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>Работа с моделью</h3>
+          <ul>
+            <li><code>/models</code> — выбрать модель.</li>
+            <li><code>/variants</code> — выбрать effort.</li>
+          </ul>
+        </article>
+        <article class="card info">
+          <h3>Работа с чатами</h3>
+          <ul>
+            <li><code>/session</code> — вернуться к прошлому диалогу.</li>
+            <li><code>/new</code> — начать новый чат.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="card warn" style="margin-top:10px;">
+        <h3>Важно про <code>/session</code></h3>
+        <p>Набор чатов зависит от папки, из которой запущен opencode. В двух разных папках будут два разных списка сессий.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Быстрые действия в терминале</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>Копирование и вставка</h3>
+          <ul>
+            <li>Чтобы скопировать: просто выделите текст.</li>
+            <li>Вставка: <code>Ctrl + Shift + V</code>.</li>
+          </ul>
+        </article>
+        <article class="card info">
+          <h3>Перенос файлов</h3>
+          <ul>
+            <li>Файл можно перетащить в терминал мышкой.</li>
+            <li>Путь вставится автоматически.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Шаг 2: сразу подготовить GitHub и Git</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>GitHub CLI</h3>
+          <div class="code">gh auth login</div>
+          <ul>
+            <li>Авторизоваться перед началом работы.</li>
+            <li>После работы выйти из аккаунта:</li>
+          </ul>
+          <div class="code">gh auth logout</div>
+        </article>
+        <article class="card info">
+          <h3>Локальный Git</h3>
+          <div class="code">git init</div>
+          <ul>
+            <li>Создать локальный репозиторий.</li>
+            <li>Дальше коммитить изменения и пушить на сервер.</li>
+            <li>Или попросить opencode выполнить это.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Что вы должны сделать за эту пару</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>Обязательный минимум</h3>
+          <ul>
+            <li>Определить жанр и core-loop игры.</li>
+            <li>Разделить роли в паре.</li>
+            <li>Собрать MVP-план в 5-8 задач.</li>
+            <li>Создать репозиторий и стартовую структуру.</li>
+          </ul>
+        </article>
+        <article class="card warn">
+          <h3>Чего избегать</h3>
+          <ul>
+            <li>Сразу идти в сложный 3D без MVP.</li>
+            <li>Писать “сделай всё” одним промптом.</li>
+            <li>Работать без проверок и коммитов.</li>
+            <li>Менять стек посреди пары без причины.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Только после setup переходим к игре</h2></header>
+      <div class="card ok">
+        <ul>
+          <li>Сначала: папка проекта + opencode + GitHub CLI + git init.</li>
+          <li>Потом: планирование игры в <b>Plan mode</b>.</li>
+          <li>И только затем: реализация в <b>Build mode</b>.</li>
+        </ul>
+      </div>
+      <div class="code">Порядок пары: setup -> Plan mode -> выбор подхода -> Build mode -> проверка -> commit.</div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Шаблон промпта на старт проекта</h2></header>
+      <div class="card ok">
+        <p>Используйте каркас:</p>
+        <div class="code">Цель: [какую игру делаем]
+Ограничения: [2D/3D, стек, дедлайн]
+MVP: [минимум фич]
+Критерий готовности: [как понять, что работает]
+Формат ответа: [план задач + порядок реализации]</div>
+      </div>
+      <div class="card" style="margin-top:10px;">
+        <p>Пример:</p>
+        <div class="code">Сделай план MVP 2D-игры "Dodge Balls" на Canvas за 3 дня.
+Нужно: движение, коллизии, счёт, экран поражения.
+Дай 7 задач в правильной последовательности.</div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Два подхода: поэтапный и мгновенный</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>1) Поэтапный (лучше для 4-5)</h3>
+          <ul>
+            <li>Стартуем в Plan mode и разбиваем игру на этапы.</li>
+            <li>Каждый этап делаем в Build mode, потом проверяем руками.</li>
+            <li>Если что-то не так, просим исправить до готового состояния.</li>
+            <li>После готового этапа: просим opencode сделать git commit.</li>
+            <li>Подходит для более проработанных игр и большого числа ассетов.</li>
+          </ul>
+        </article>
+        <article class="card info">
+          <h3>2) Мгновенный (лучше для 3)</h3>
+          <ul>
+            <li>В Plan mode готовим one-shot prompt под MVP.</li>
+            <li>Запускаем в Build mode и получаем игру за один большой запрос.</li>
+            <li>Плюс: очень быстрый выход на MVP.</li>
+            <li>Минус: высокий техдолг, исправлять потом дольше и сложнее.</li>
+            <li>Первый git commit делаем сразу на первой MVP-версии.</li>
+          </ul>
+        </article>
+      </div>
+      <p class="lead" style="margin-top:10px;">Оба подхода стартуют с Plan mode; разница в том, насколько детально дробим реализацию.</p>
+    </section>
+
+    <section class="slide">
+      <header><h2>Рабочий цикл в opencode</h2></header>
+      <div class="steps">
+        <article class="step"><div class="n">1</div><p>Сформулировать узкую задачу.</p></article>
+        <article class="step"><div class="n">2</div><p>Дать контекст и ограничения.</p></article>
+        <article class="step"><div class="n">3</div><p>Выполнить через tools.</p></article>
+        <article class="step"><div class="n">4</div><p>Проверить запуск/лог/тест.</p></article>
+        <article class="step"><div class="n">5</div><p>Сделать commit и перейти дальше.</p></article>
+      </div>
+      <div class="code" style="margin-top:10px;">Золотое правило: одна логическая задача = один commit.</div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Инструкция по ассетам</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>Как подготовить</h3>
+          <ul>
+            <li>Скачать ассеты заранее.</li>
+            <li>Загрузить в папку проекта.</li>
+            <li>Лучше сделать отдельную папку, например <code>assets/</code>.</li>
+            <li>Передать opencode путь к этой папке.</li>
+          </ul>
+          <div class="code">Рекомендуемый источник: kenney.nl (и для 2D, и для 3D).</div>
+        </article>
+        <article class="card info">
+          <h3>Платформы и сопоставление</h3>
+          <ul>
+            <li>Дополнительные платформы: <code>itch.io</code> и <code>sketchfab.com</code>.</li>
+            <li>Какой ассет для какого элемента игры.</li>
+            <li>Пример: player, enemy, background, UI, sounds.</li>
+            <li>Если не указать соответствия, ИИ может подключить всё неверно.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="code">Пример: \"Используй assets/player.png для игрока, assets/enemy.png для врага, assets/bg.png для фона, assets/hit.wav для столкновений\".</div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Общее задание для студентов</h2></header>
+      <div class="card ok">
+        <ul>
+          <li>Сделать аналог любимой игры или другой выбранной игры.</li>
+          <li>Сдать минимально рабочую версию, в которую реально можно поиграть.</li>
+          <li>Ключевое условие: основная механика должна работать стабильно.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Критерии на 5 / 4 / 3</h2></header>
+      <div class="grid-3">
+        <article class="card ok">
+          <h3>Оценка 5</h3>
+          <ul>
+            <li>Либо 10+ 3D моделей.</li>
+            <li>Либо 10+ 2D ассетов.</li>
+            <li>Плюс 3 анимации из тех же паков.</li>
+          </ul>
+        </article>
+        <article class="card info">
+          <h3>Оценка 4</h3>
+          <ul>
+            <li>Либо 5+ 3D моделей.</li>
+            <li>Либо 5+ 2D ассетов.</li>
+            <li>Плюс 2 анимации.</li>
+          </ul>
+        </article>
+        <article class="card warn">
+          <h3>Оценка 3</h3>
+          <ul>
+            <li>Либо 1 3D модель.</li>
+            <li>Либо 1 2D ассет.</li>
+            <li>Фото/текстура — достаточно.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Git + GitHub + GitHub Pages: минимальный pipeline</h2></header>
+      <div class="grid-3">
+        <article class="card"><h3>1. Локально</h3><ul><li>init/add/commit</li><li>чистая история</li></ul></article>
+        <article class="card"><h3>2. GitHub</h3><ul><li>push в main</li><li>README + структура</li></ul></article>
+        <article class="card"><h3>3. Pages</h3><ul><li>публикация билда</li><li>проверка ссылки</li></ul></article>
+      </div>
+      <div class="code" style="margin-top:10px;">На каждой контрольной точке и в конце пары: git push в GitHub. После этого можно попросить opencode дать актуальную ссылку на GitHub Pages.</div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Стек проекта и чего нужно избежать</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>Разрабатываем именно сайт</h3>
+          <ul>
+            <li>Не делаем desktop-игру (Python game, Godot script и т.д.).</li>
+            <li>Если 2D: <code>HTML + CSS + JS + Canvas</code>.</li>
+            <li>Если 3D: <code>HTML + CSS + JS + Three.js</code>.</li>
+          </ul>
+        </article>
+        <article class="card warn">
+          <h3>Анти-паттерн</h3>
+          <ul>
+            <li>Не сваливать всё в один <code>index.html</code> на 2000 строк.</li>
+            <li>В монолите ИИ чаще ошибается при фиксе и доработках.</li>
+            <li>Дробите код на файлы, чтобы правки были точечными.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="code">Минимальная архитектура: index.html + style.css + script.js (подключение и запуск) + game.js (ООП-класс игры).</div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Тестирование и отладка в браузере</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>Console</h3>
+          <ul>
+            <li>Открывайте DevTools и вкладку <code>Console</code>.</li>
+            <li>Красные ошибки копируйте и отправляйте ИИ.</li>
+            <li>Просите ИИ объяснить причину и дать точечный фикс.</li>
+          </ul>
+        </article>
+        <article class="card info">
+          <h3>Кэш и обновление страницы</h3>
+          <ul>
+            <li>Иногда изменения не видны из-за кэша.</li>
+            <li>Делайте принудительную перезагрузку: <code>Ctrl + F5</code>.</li>
+            <li>Потом снова проверяйте Console и поведение игры.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Если не получилось с первого раза</h2></header>
+      <div class="grid-2">
+        <article class="card ok">
+          <h3>Алгоритм исправления</h3>
+          <ul>
+            <li>Зафиксировать точную ошибку.</li>
+            <li>Сузить задачу до одного дефекта.</li>
+            <li>Попросить план фикса в 2-3 шага.</li>
+            <li>После фикса сразу проверить запуск.</li>
+          </ul>
+        </article>
+        <article class="card warn">
+          <h3>Чего не делать</h3>
+          <ul>
+            <li>Не переписывать весь проект.</li>
+            <li>Не менять 5 вещей одновременно.</li>
+            <li>Не коммитить непроверенный код.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <header><h2>Чекпоинт конца пары</h2></header>
+      <div class="card ok">
+        <ul>
+          <li>Папка проекта создана и опенкод запущен из правильной директории.</li>
+          <li>GitHub CLI авторизован, локальный git репозиторий инициализирован.</li>
+          <li>Есть план MVP и стартовые задачи.</li>
+          <li>Есть первые коммиты, сделан git push, и есть актуальная ссылка на GitHub Pages.</li>
+        </ul>
+      </div>
+      <p class="big" style="margin-top:10px;">Следующая пара: разработка игры, ассеты, тестирование и отладка.</p>
+    </section>
+
+    <footer class="footer"><span>Навигация: ← → / Space / PgUp PgDn</span><span id="counter">1 / 17</span></footer>
+  </main>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.getElementById('counter');
+    let index = 0;
+    const render = () => {
+      slides.forEach((s, i) => s.classList.toggle('active', i === index));
+      counter.textContent = `${index + 1} / ${slides.length}`;
+    };
+    const next = () => { if (index < slides.length - 1) { index += 1; render(); } };
+    const prev = () => { if (index > 0) { index -= 1; render(); } };
+    window.addEventListener('keydown', (e) => {
+      if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) next();
+      if (['ArrowLeft', 'PageUp'].includes(e.key)) prev();
+    });
+    render();
+  </script>
+</body>
+</html>

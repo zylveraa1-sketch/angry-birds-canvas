@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Angry Birds — Canvas</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="wrapper">
+    <canvas id="c"></canvas>
+    <div id="hud">
+      <div class="hud-pill">⭐ <span id="h-score">0</span></div>
+      <div id="bird-queue"></div>
+      <div class="hud-pill" style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+        <span style="font-size:12px;opacity:.7;">Уровень <span id="h-level">1</span></span>
+        <div id="stars-row"><span id="s1">☆</span><span id="s2">☆</span><span id="s3">☆</span></div>
+      </div>
+    </div>
+    <div id="hint"></div>
+    <div id="lvlsel">
+      <div class="ls-title">🐦 Выбери уровень</div>
+      <div class="ls-grid" id="ls-grid"></div>
+    </div>
+    <div id="overlay">
+      <div class="ov-box">
+        <div class="ov-title" id="ov-title">Победа!</div>
+        <div class="ov-stars" id="ov-stars">⭐⭐⭐</div>
+        <div class="ov-score">Очки: <span id="ov-score">0</span></div>
+        <div class="ov-best" id="ov-best"></div>
+        <div class="ov-btns">
+          <button type="button" class="btn sec" onclick="G.showLevelSel()">Уровни</button>
+          <button type="button" class="btn" id="ov-next">Далее ▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
