@@ -14,6 +14,7 @@ export class Pig extends Body {
     this.armor = armor;
     this.helmet = armor;
     this.score = armor ? 400 : 200;
+    this.squashT = 0;
   }
 
   onImpact(force) {
@@ -24,6 +25,7 @@ export class Pig extends Body {
   takeDmg(d) {
     this.hp -= d;
     this.shakeT = 14;
+    this.squashT = 12;
     spawnP(this.cx, this.cy, '#7EC850', 8);
     if (this.hp <= 0) {
       this.dead = true;
@@ -60,9 +62,19 @@ export class Pig extends Body {
     const img = getPigSprite(this.armor);
     const anchor = getPigAnchor(this.armor);
     const footY = py + r;
+    let scaleY = 1;
+    let scaleX = 1;
+    if (this.squashT > 0) {
+      const t = 1 - this.squashT / 12;
+      scaleY = 1 + 0.22 * Math.sin(t * Math.PI);
+      scaleX = 1 - 0.1 * Math.sin(t * Math.PI);
+      this.squashT--;
+    }
     if (
       drawSpriteCentered(img, px, footY, r * 2.45, {
         anchor: { cx: anchor.cx, cy: anchor.foot },
+        scaleX,
+        scaleY,
       })
     ) {
       this.drawHpBar(px, py, r);

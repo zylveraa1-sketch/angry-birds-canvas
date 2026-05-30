@@ -13,6 +13,8 @@ export function drawSpriteCentered(img, x, y, size, opts = {}) {
   const ax = opts.anchor?.cx ?? 0.5;
   const ay = opts.anchor?.cy ?? 0.5;
   const alpha = opts.alpha ?? 1;
+  const sx = opts.scaleX ?? 1;
+  const sy = opts.scaleY ?? 1;
 
   cx.save();
   if (alpha < 1) cx.globalAlpha = alpha;
@@ -22,7 +24,9 @@ export function drawSpriteCentered(img, x, y, size, opts = {}) {
     cx.imageSmoothingEnabled = true;
     cx.imageSmoothingQuality = 'high';
   }
-  cx.drawImage(img, x - dw * ax, y - dh * ay, dw, dh);
+  cx.translate(x, y);
+  cx.scale(sx, sy);
+  cx.drawImage(img, -dw * ax, -dh * ay, dw, dh);
   cx.restore();
   return true;
 }

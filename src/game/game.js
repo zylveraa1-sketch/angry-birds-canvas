@@ -25,11 +25,14 @@ import { makeLevel } from './levels.js';
 import { showHint, tickHint } from './hint.js';
 import { ASSET_VER, SPRITES_BASE } from './assets.js';
 
-function starImg(filled) {
-  const style = filled
+function starImg(filled, index = 0) {
+  const base = filled
     ? 'opacity:1'
     : 'opacity:0.3;filter:grayscale(1) brightness(1.2)';
-  return `<img class="star-icon" src="${SPRITES_BASE}star.png?v=${ASSET_VER}" alt="" style="${style}">`;
+  const spin = filled
+    ? `transform:rotate(${((G.starAnim * 40 + index * 55) % 360)}deg);`
+    : '';
+  return `<img class="star-icon" src="${SPRITES_BASE}star.png?v=${ASSET_VER}" alt="" style="${base};${spin}">`;
 }
 
 export const G = {
@@ -47,6 +50,7 @@ export const G = {
   grabDx: 0,
   grabDy: 0,
   state: 'playing',
+  starAnim: 0,
   _advancing: false,
 
   init(lvl) {
@@ -98,7 +102,7 @@ export const G = {
     });
     const killed = this.pigs.filter((p) => p.dead).length;
     for (let i = 1; i <= 3; i++) {
-      document.getElementById('s' + i).innerHTML = starImg(killed >= i);
+      document.getElementById('s' + i).innerHTML = starImg(killed >= i, i - 1);
     }
   },
 
@@ -314,13 +318,13 @@ export const G = {
     const ovStars = document.getElementById('ov-stars');
     ovStars.innerHTML = '';
     for (let i = 0; i < 3; i++) {
-      ovStars.innerHTML += starImg(win && i < stars);
+      ovStars.innerHTML += starImg(win && i < stars, i);
     }
     document.getElementById('ov-score').textContent = this.score;
     const ovBest = document.getElementById('ov-best');
     ovBest.innerHTML = 'Рекорд: ';
     for (let i = 0; i < 3; i++) {
-      ovBest.innerHTML += starImg(i < best);
+      ovBest.innerHTML += starImg(i < best, i);
     }
     const nb = document.getElementById('ov-next');
     if (win && this.level < 5) {
@@ -395,6 +399,7 @@ export const G = {
   },
 
   update() {
+    this.starAnim += 0.14;
     if (this.state !== 'playing') return;
     for (const b of this.birds) b.update();
     this.physicsStep();

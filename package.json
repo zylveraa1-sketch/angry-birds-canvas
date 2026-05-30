@@ -9,6 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "node --test tests/collision.test.js",
+    "test:node": "node --test tests/collision.test.js",
     "sprites": "py scripts/process_sprites.py",
     "sheet": "py scripts/split_sheet.py"
   },

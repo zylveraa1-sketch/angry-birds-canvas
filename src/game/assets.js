@@ -1,6 +1,6 @@
 export const SPRITES_BASE = `${import.meta.env.BASE_URL}assets/sprites/`;
 const BASE = SPRITES_BASE;
-export const ASSET_VER = '24';
+export const ASSET_VER = '25';
 
 export const SPRITE_FILES = {
   birdRed: 'bird-red.png',
@@ -11,6 +11,9 @@ export const SPRITE_FILES = {
   pigHelmet: 'pig-helmet.png',
   star: 'star.png',
   groundGrass: 'ground-grass.png',
+  explosion1: 'explosion-1.png',
+  explosion2: 'explosion-2.png',
+  explosion3: 'explosion-3.png',
 };
 
 export const sprites = {
@@ -22,6 +25,9 @@ export const sprites = {
   pigHelmet: null,
   star: null,
   groundGrass: null,
+  explosion1: null,
+  explosion2: null,
+  explosion3: null,
 };
 
 export const birdAnchor = {
@@ -111,6 +117,9 @@ export function loadSprites() {
     }),
     loadImage('star', SPRITE_FILES.star),
     loadImage('groundGrass', SPRITE_FILES.groundGrass),
+    loadImage('explosion1', SPRITE_FILES.explosion1),
+    loadImage('explosion2', SPRITE_FILES.explosion2),
+    loadImage('explosion3', SPRITE_FILES.explosion3),
   ]).then(() => {
     ready = true;
   });
@@ -145,4 +154,11 @@ export function getStarSprite() {
 
 export function getGroundGrassSprite() {
   return sprites.groundGrass;
+}
+
+/** Кадры взрыва из ассет-пака (explosion-1 → 3) */
+export function getExplosionFrame(index) {
+  if (index <= 0) return sprites.explosion1;
+  if (index === 1) return sprites.explosion2;
+  return sprites.explosion3;
 }

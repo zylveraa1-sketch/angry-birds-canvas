@@ -65,7 +65,7 @@ export class Bird {
   doExplode() {
     spawnBoom(this.x, this.y);
     this.exploding = true;
-    this.explodeFrame = 10;
+    this.explodeFrame = 12;
     gameRef.explosionDamage(this.x, this.y, 115);
   }
 
@@ -112,22 +112,7 @@ export class Bird {
 
   draw() {
     if (this.dead && !this.exploding) return;
-    if (this.exploding) {
-      cx.save();
-      const ef = this.explodeFrame / 10;
-      cx.globalAlpha = ef * 0.9;
-      const eg = cx.createRadialGradient(this.x, this.y, 0, this.x, this.y, 115);
-      eg.addColorStop(0, '#fff');
-      eg.addColorStop(0.25, '#FFE000');
-      eg.addColorStop(0.6, '#FF4400');
-      eg.addColorStop(1, 'rgba(0,0,0,0)');
-      cx.fillStyle = eg;
-      cx.beginPath();
-      cx.arc(this.x, this.y, 115, 0, Math.PI * 2);
-      cx.fill();
-      cx.restore();
-      return;
-    }
+    if (this.exploding) return;
     this.trail.forEach((p, i) => {
       cx.save();
       cx.globalAlpha = (i / this.trail.length) * 0.25;

@@ -1,8 +1,14 @@
 import { cx } from './config.js';
 import { rnd } from './utils.js';
+import { getExplosionFrame } from './assets.js';
 
 export const PARTS = [];
 export const SHOCKWAVES = [];
+/** Спрайтовые взрывы: 3 кадра из assets/sprites/explosion-*.png */
+export const EXPLOSIONS = [];
+
+const EXP_FRAME_TICKS = 4;
+const EXP_FRAMES = 3;
 
 export function spawnP(x, y, col, n = 10, spd = 5) {
   for (let i = 0; i < n; i++) {
@@ -21,11 +27,21 @@ export function spawnP(x, y, col, n = 10, spd = 5) {
   }
 }
 
+export function spawnSpriteExplosion(x, y, size = 200) {
+  EXPLOSIONS.push({
+    x,
+    y,
+    size,
+    frame: 0,
+    tick: 0,
+    alpha: 1,
+  });
+}
+
 export function spawnBoom(x, y) {
-  spawnP(x, y, '#FF6600', 30, 12);
-  spawnP(x, y, '#FFD700', 22, 16);
-  spawnP(x, y, '#FF2200', 16, 9);
-  spawnP(x, y, '#fff', 10, 6);
+  spawnSpriteExplosion(x, y, 210);
+  spawnP(x, y, '#FF6600', 18, 10);
+  spawnP(x, y, '#FFD700', 12, 8);
   SHOCKWAVES.push({ x, y, r: 10, maxR: 130, life: 1 });
 }
 
@@ -44,9 +60,36 @@ export function tickParts() {
     s.life -= 0.08;
     if (s.life <= 0) SHOCKWAVES.splice(i, 1);
   }
+  for (let i = EXPLOSIONS.length - 1; i >= 0; i--) {
+    const e = EXPLOSIONS[i];
+    e.tick++;
+    if (e.tick >= EXP_FRAME_TICKS) {
+      e.tick = 0;
+      e.frame++;
+      if (e.frame >= EXP_FRAMES) {
+        EXPLOSIONS.splice(i, 1);
+        continue;
+      }
+    }
+    if (e.frame === EXP_FRAMES - 1) e.alpha = 1 - e.tick / EXP_FRAME_TICKS;
+  }
+}
+
+function drawSpriteExplosions() {
+  EXPLOSIONS.forEach((e) => {
+    const img = getExplosionFrame(e.frame);
+    if (!img?.naturalWidth) return;
+    const s = e.size;
+    cx.save();
+    cx.globalAlpha = e.alpha;
+    cx.imageSmoothingEnabled = true;
+    cx.drawImage(img, e.x - s / 2, e.y - s / 2, s, s);
+    cx.restore();
+  });
 }
 
 export function drawParts() {
+  drawSpriteExplosions();
   PARTS.forEach((p) => {
     cx.save();
     cx.globalAlpha = p.life;
@@ -71,4 +114,5 @@ export function drawParts() {
 export function clearEffects() {
   PARTS.length = 0;
   SHOCKWAVES.length = 0;
+  EXPLOSIONS.length = 0;
 }
