@@ -2,7 +2,6 @@ import { cx } from './config.js';
 import { rnd } from './utils.js';
 import { spawnP } from './particles.js';
 import { Body } from './body.js';
-import { getBlockSprite } from './assets.js';
 
 const BLOCK_HP = { wood: 3, stone: 6, ice: 2 };
 
@@ -51,29 +50,11 @@ export class Block extends Body {
     return false;
   }
 
-  drawCracks() {
-    const ratio = this.hp / this.maxHp;
-    if (ratio < 0.7) {
-      cx.strokeStyle = 'rgba(0,0,0,.45)';
-      cx.lineWidth = 1.5;
-      cx.beginPath();
-      cx.moveTo(this.x + this.w * 0.25, this.y + 4);
-      cx.lineTo(this.x + this.w * 0.5, this.y + this.h * 0.45);
-      cx.lineTo(this.x + this.w * 0.72, this.y + this.h - 4);
-      cx.stroke();
-    }
-    if (ratio < 0.4) {
-      cx.strokeStyle = 'rgba(0,0,0,.4)';
-      cx.lineWidth = 1.5;
-      cx.beginPath();
-      cx.moveTo(this.x + this.w * 0.6, this.y + 4);
-      cx.lineTo(this.x + this.w * 0.35, this.y + this.h * 0.55);
-      cx.lineTo(this.x + this.w * 0.55, this.y + this.h - 4);
-      cx.stroke();
-    }
-  }
-
-  drawProcedural() {
+  draw() {
+    if (this.dead) return;
+    const ox = this.shakeT > 0 ? rnd(-2, 2) : 0;
+    cx.save();
+    cx.translate(ox, 0);
     const fills = { wood: '#D4A55A', stone: '#BBBBBB', ice: '#AADDFF' };
     const strokes = { wood: '#A06820', stone: '#777', ice: '#5599CC' };
     cx.fillStyle = fills[this.type] || fills.wood;
@@ -100,24 +81,25 @@ export class Block extends Body {
         cx.fillRect(this.x + s.x, this.y + s.y, s.w, s.h);
       }
     }
-  }
-
-  draw() {
-    if (this.dead) return;
-    const ox = this.shakeT > 0 ? Math.sin(this.shakeT * 2.1) * 2 : 0;
-    cx.save();
-    cx.translate(ox, 0);
-
-    const img = getBlockSprite(this.type);
-    if (img?.naturalWidth) {
-      cx.imageSmoothingEnabled = true;
-      cx.imageSmoothingQuality = 'high';
-      cx.drawImage(img, this.x, this.y, this.w, this.h);
-    } else {
-      this.drawProcedural();
+    const ratio = this.hp / this.maxHp;
+    if (ratio < 0.7) {
+      cx.strokeStyle = 'rgba(0,0,0,.45)';
+      cx.lineWidth = 1.5;
+      cx.beginPath();
+      cx.moveTo(this.x + this.w * 0.25, this.y + 4);
+      cx.lineTo(this.x + this.w * 0.5, this.y + this.h * 0.45);
+      cx.lineTo(this.x + this.w * 0.72, this.y + this.h - 4);
+      cx.stroke();
     }
-
-    this.drawCracks();
+    if (ratio < 0.4) {
+      cx.strokeStyle = 'rgba(0,0,0,.4)';
+      cx.lineWidth = 1.5;
+      cx.beginPath();
+      cx.moveTo(this.x + this.w * 0.6, this.y + 4);
+      cx.lineTo(this.x + this.w * 0.35, this.y + this.h * 0.55);
+      cx.lineTo(this.x + this.w * 0.55, this.y + this.h - 4);
+      cx.stroke();
+    }
     cx.restore();
   }
 }

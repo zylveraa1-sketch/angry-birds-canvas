@@ -1,6 +1,6 @@
 export const SPRITES_BASE = `${import.meta.env.BASE_URL}assets/sprites/`;
 const BASE = SPRITES_BASE;
-export const ASSET_VER = '27';
+export const ASSET_VER = '28';
 
 export const SPRITE_FILES = {
   birdRed: 'bird-red.png',
@@ -11,9 +11,6 @@ export const SPRITE_FILES = {
   pigHelmet: 'pig-helmet.png',
   star: 'star.png',
   groundGrass: 'ground-grass.png',
-  blockWood: 'block-wood.png',
-  blockStone: 'block-stone.png',
-  blockIce: 'block-ice.png',
   explosion1: 'explosion-1.png',
   explosion2: 'explosion-2.png',
   explosion3: 'explosion-3.png',
@@ -28,9 +25,6 @@ export const sprites = {
   pigHelmet: null,
   star: null,
   groundGrass: null,
-  blockWood: null,
-  blockStone: null,
-  blockIce: null,
   explosion1: null,
   explosion2: null,
   explosion3: null,
@@ -123,9 +117,6 @@ export function loadSprites() {
     }),
     loadImage('star', SPRITE_FILES.star),
     loadImage('groundGrass', SPRITE_FILES.groundGrass),
-    loadImage('blockWood', SPRITE_FILES.blockWood),
-    loadImage('blockStone', SPRITE_FILES.blockStone),
-    loadImage('blockIce', SPRITE_FILES.blockIce),
     loadImage('explosion1', SPRITE_FILES.explosion1),
     loadImage('explosion2', SPRITE_FILES.explosion2),
     loadImage('explosion3', SPRITE_FILES.explosion3),
@@ -163,13 +154,6 @@ export function getStarSprite() {
 
 export function getGroundGrassSprite() {
   return sprites.groundGrass;
-}
-
-export function getBlockSprite(type) {
-  if (type === 'wood') return sprites.blockWood;
-  if (type === 'stone') return sprites.blockStone;
-  if (type === 'ice') return sprites.blockIce;
-  return null;
 }
 
 /** Кадры взрыва из ассет-пака (explosion-1 → 3) */
