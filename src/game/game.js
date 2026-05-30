@@ -6,7 +6,8 @@ import { Bird, setGameRef } from './bird.js';
 import { drawBird } from './sprite-bird.js';
 import { hillSurfaceY } from './terrain.js';
 import {
-  drawSlingFrame,
+  drawSlingFrameBack,
+  drawSlingFrameFront,
   drawSlingBandBack,
   drawSlingBandFront,
   slingBirdPos,
@@ -466,7 +467,7 @@ export const G = {
 
     this.drawBirdQueue();
 
-    drawSlingFrame();
+    drawSlingFrameBack();
 
     for (const bl of this.blocks) bl.draw();
     for (const p of this.pigs) p.draw();
@@ -482,6 +483,8 @@ export const G = {
     for (const b of this.birds) b.draw();
 
     drawSlingBandFront(bp.x, bp.y);
+
+    drawSlingFrameFront();
 
     if (this.dragging && this.activeBird) {
       const rest = slingPouchRest();

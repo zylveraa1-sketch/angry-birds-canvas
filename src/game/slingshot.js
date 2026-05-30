@@ -116,15 +116,25 @@ function drawRope(x1, y1, x2, y2) {
   cx.stroke();
 }
 
-export function drawSlingFrame() {
+function drawSlingImage(img, g, srcY0, srcY1) {
+  const ih = img.naturalHeight;
+  const iw = img.naturalWidth;
+  const sh = (srcY1 - srcY0) * ih;
+  const dy = g.drawY + srcY0 * g.drawH;
+  const dh = (srcY1 - srcY0) * g.drawH;
+  cx.imageSmoothingEnabled = true;
+  cx.imageSmoothingQuality = 'high';
+  cx.drawImage(img, 0, srcY0 * ih, iw, sh, g.drawX, dy, g.drawW, dh);
+}
+
+/** Нижний ствол рогатки — за птицей */
+export function drawSlingFrameBack() {
   const g = getSlingGeometry();
   const img = getSlingshotSprite();
-
   cx.save();
   if (img?.naturalWidth) {
-    cx.imageSmoothingEnabled = true;
-    cx.imageSmoothingQuality = 'high';
-    cx.drawImage(img, g.drawX, g.drawY, g.drawW, g.drawH);
+    const splitYN = (g.split.y - g.drawY) / g.drawH;
+    drawSlingImage(img, g, Math.max(0, splitYN - 0.04), 1);
   } else {
     cx.strokeStyle = '#7B4F28';
     cx.lineWidth = 12;
@@ -133,7 +143,22 @@ export function drawSlingFrame() {
     cx.moveTo(g.foot.x, g.foot.y);
     cx.lineTo(g.split.x, g.split.y);
     cx.stroke();
+  }
+  cx.restore();
+}
+
+/** Вилки и верхняя часть — перед птицей */
+export function drawSlingFrameFront() {
+  const g = getSlingGeometry();
+  const img = getSlingshotSprite();
+  cx.save();
+  if (img?.naturalWidth) {
+    const splitYN = (g.split.y - g.drawY) / g.drawH;
+    drawSlingImage(img, g, 0, Math.min(1, splitYN + 0.14));
+  } else {
+    cx.strokeStyle = '#7B4F28';
     cx.lineWidth = 10;
+    cx.lineCap = 'round';
     cx.beginPath();
     cx.moveTo(g.split.x, g.split.y);
     cx.lineTo(g.forkL.x, g.forkL.y);
@@ -142,6 +167,20 @@ export function drawSlingFrame() {
     cx.moveTo(g.split.x, g.split.y);
     cx.lineTo(g.forkR.x, g.forkR.y);
     cx.stroke();
+  }
+  cx.restore();
+}
+
+/** Полный кадр (если нужен целиком) */
+export function drawSlingFrame() {
+  const g = getSlingGeometry();
+  const img = getSlingshotSprite();
+  cx.save();
+  if (img?.naturalWidth) {
+    drawSlingImage(img, g, 0, 1);
+  } else {
+    drawSlingFrameBack();
+    drawSlingFrameFront();
   }
   cx.restore();
 }
