@@ -23,13 +23,13 @@ import { drawClouds } from './clouds.js';
 import { drawGround } from './ground.js';
 import { makeLevel } from './levels.js';
 import { showHint, tickHint } from './hint.js';
-import { ASSET_VER } from './assets.js';
+import { ASSET_VER, SPRITES_BASE } from './assets.js';
 
 function starImg(filled) {
   const style = filled
     ? 'opacity:1'
     : 'opacity:0.3;filter:grayscale(1) brightness(1.2)';
-  return `<img class="star-icon" src="/assets/sprites/star.png?v=${ASSET_VER}" alt="" style="${style}">`;
+  return `<img class="star-icon" src="${SPRITES_BASE}star.png?v=${ASSET_VER}" alt="" style="${style}">`;
 }
 
 export const G = {
